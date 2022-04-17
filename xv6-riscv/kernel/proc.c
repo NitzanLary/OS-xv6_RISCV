@@ -654,4 +654,7 @@ procdump(void)
     printf("\n");
   }
 }
-// delete this coment
+
+int pause_system(int miliseconds){
+  
+}
