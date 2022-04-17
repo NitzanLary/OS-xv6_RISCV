@@ -656,5 +656,5 @@ procdump(void)
 }
 
 int pause_system(int miliseconds){
-
+  return 0;
 }
