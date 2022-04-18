@@ -6,6 +6,10 @@
 #include "proc.h"
 #include "defs.h"
 
+int is_paused = 0;  // whether pause_system system call was called and paused_time > 0
+uint pause_start_ticks = 0;  // ticks when pause_system system call was called
+uint paused_time = 0;  // time left (in ticks) since pause_system system call was called
+
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -444,8 +448,10 @@ scheduler(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-
+    
     for(p = proc; p < &proc[NPROC]; p++) {
+      if(is_paused <= 0)
+      {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
         // Switch to chosen process.  It is the process's job
@@ -460,6 +466,10 @@ scheduler(void)
         c->proc = 0;
       }
       release(&p->lock);
+      }
+      else{
+        is_paused = paused_time >= ticks - pause_start_ticks;
+      }
     }
   }
 }
@@ -655,6 +665,29 @@ procdump(void)
   }
 }
 
-int pause_system(int miliseconds){
+int 
+pause_system(int seconds)
+{
+  if(seconds < 0)
+    return -1;
+  is_paused = 1;
+  int factor_tick_seconds = 10;
+  paused_time = seconds * factor_tick_seconds;
+  pause_start_ticks = ticks;
+  yield();
+  return 1;
+}
+
+int
+kill_system(void)
+{
+  struct proc *my_proc = my_proc;
+  struct proc *p;
+  for(p = proc + 2; p < &proc[NPROC]; p++) {
+    if(p->pid != my_proc->pid)
+      kill(p -> pid);
+  }
+  kill(my_proc -> pid);
+  yield();
   return 0;
 }
