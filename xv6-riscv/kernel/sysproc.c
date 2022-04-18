@@ -99,10 +99,10 @@ sys_uptime(void)
 uint64
 sys_pause_system(void)
 {
-  int miliseconds;
+  int seconds;
 
-  if(argint(0, &miliseconds) < 0)
+  if(argint(0, &seconds) < 0)
     return -1;
-  return pause_system(miliseconds);
+  return pause_system(seconds);
 }
 
