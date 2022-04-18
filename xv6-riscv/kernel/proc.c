@@ -677,3 +677,17 @@ pause_system(int seconds)
   yield();
   return 1;
 }
+
+int
+kill_system(void)
+{
+  struct proc *my_proc = my_proc;
+  struct proc *p;
+  for(p = proc + 2; p < &proc[NPROC]; p++) {
+    if(p->pid != my_proc->pid)
+      kill(p -> pid);
+  }
+  kill(my_proc -> pid);
+  yield();
+  return 0;
+}
