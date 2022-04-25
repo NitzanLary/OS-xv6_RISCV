@@ -26,6 +26,7 @@ int uptime(void);
 int pause_system(int);
 int kill_system(int);
 int print_stats(void);
+int print_stats_2(int);
 
 // ulib.c
 int stat(const char*, struct stat*);

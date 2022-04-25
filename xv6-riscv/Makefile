@@ -139,6 +139,8 @@ UPROGS=\
 	$U/_zombie\
 	$U/_test1\
 	$U/_test2\
+	$U/_env\
+	$U/_env2\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

@@ -337,7 +337,6 @@ fork(void)
   np->running_time = 0;
   #ifdef FCFS
   np->last_runnable_time = p->last_runnable_time - 1;
-  // np->last_runnable_time = 0;
   #endif
   release(&np->lock);
 
@@ -367,9 +366,9 @@ update_stats(struct proc* p){
   proccesses_counter++;
   program_time += p->running_time;
   cpu_utilization = 100 * program_time / (ticks - start_time);
-  print_stats();
-  printf("P Counter: %d\n", proccesses_counter);
-  printf("P Running time: %d\n", p->running_time);
+  // print_stats();
+  // printf("P Counter: %d\n", proccesses_counter);
+  // printf("P Running time: %d\n", p->running_time);
 
 }
 
@@ -384,11 +383,11 @@ print_p(struct proc *p){
 
 void
 update_proccess_stats(struct proc* p){
-  print_p(p);
+  // print_p(p);
   uint64* cur_att = &(p->sleeping_time) + p->state - SLEEPING; // Asaf is King
   *cur_att = *cur_att + (ticks - p->last_state_update_ticks);
   p->last_state_update_ticks = ticks;
-  print_p(p);
+  // print_p(p);
 }
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
@@ -894,5 +893,21 @@ print_stats(void)
   printf("Sleeping proccesses mean: %d\n", sleeping_proccesses_mean);
   printf("Running proccesses mean: %d\n", running_proccesses_mean);
   printf("Runnable proccesses mean: %d\n", runnable_proccesses_mean);
+  printf("Total number of proccesses: %d\n", proccesses_counter);
+  return 0;
+}
+
+int
+print_stats_2(int fd)
+{
+  // char* text = "Program time: " + program_time;
+  // write(fd, "Program time: ", 15);
+  // write(fd, '0' + program_time, 1);
+  // printf("Program time: %d\n", program_time);
+  // printf("CPU Utilization: %d/100\n", cpu_utilization);
+  // printf("Sleeping proccesses mean: %d\n", sleeping_proccesses_mean);
+  // printf("Running proccesses mean: %d\n", running_proccesses_mean);
+  // printf("Runnable proccesses mean: %d\n", runnable_proccesses_mean);
+  // printf("Total number of proccesses: %d\n", proccesses_counter);
   return 0;
 }

@@ -117,3 +117,12 @@ sys_print_stats(void)
 {
   return print_stats();
 }
+
+uint64
+sys_print_stats_2(void)
+{
+  int fd;
+  if(argint(0, &fd) < 0)
+    return -1;
+  return print_stats_2(fd);
+}
